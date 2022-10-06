@@ -1,5 +1,10 @@
+package io.bekk
 
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 
-fun main() {
-    println("Let's code!")
+@SpringBootApplication
+class Application
+fun main(args: Array<String>) {
+    runApplication<Application>(*args)
 }
