@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
+import java.util.*
 
 class Task_2
 
@@ -22,7 +23,7 @@ fun main() {
         producer.send(
             ProducerRecord(
                 "hello-world",
-                "log-compaction-key",
+                "log-compaction-key-${UUID.randomUUID()}",
                 "Hey hey hey!"
             )
         )
