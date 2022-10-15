@@ -7,11 +7,11 @@ const Feed = () => {
 
     return (
         <Grid2 container spacing={1}>
-            <Grid2 xs />
-            <Grid2 xs={6}>
+            <Grid2 xs style={{ marginTop: "3px", borderRight: "solid" }} />
+            <Grid2 xs={8} style={{ padding: "2rem" }}>
                 {messages.map((message) => <FeedMessage message={message.toString()} />)}
             </Grid2>
-            <Grid2 xs />
+            <Grid2 xs style={{ marginTop: "3px", borderLeft: "solid" }} />
         </Grid2>
     )
 }
