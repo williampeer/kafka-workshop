@@ -1,0 +1,15 @@
+{
+  "namespace": "io.bekk.publisher",
+  "type": "record",
+  "name": "BekkbookStatusMessage",
+  "fields": [
+    {
+      "name": "timestamp",
+      "type": "string"
+    },
+    {
+      "name": "message",
+      "type": "string"
+    },
+  ]
+}

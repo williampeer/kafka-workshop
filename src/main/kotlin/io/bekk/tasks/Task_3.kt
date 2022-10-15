@@ -4,12 +4,10 @@ import io.bekk.repository.getBareBonesConsumer
 import io.bekk.repository.getBareBonesProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.time.Duration
-import java.util.*
 
 class Task_3
 
-const val latest = ".. and greatest!"
-const val topicName = "hello-world"
+val latest = ".. and greatest!"
 
 // Produce multiple messages to the hello-world-topic using the same key. What happens when you try to consume these messages?
 //  Google and read about "Kafka log compaction" if you'd like to know more.

@@ -1,9 +1,9 @@
 
 declare namespace Model {
     namespace FeedEvent {
-        export interface Message
+        export interface BekkbookStatusMessage
         {
-            topicName: string;
+            timestamp: string;
             message: string;
         }
     }

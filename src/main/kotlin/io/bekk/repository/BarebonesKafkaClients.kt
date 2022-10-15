@@ -19,13 +19,13 @@ fun getBareBonesProducer(): KafkaProducer<String, String> {
     return KafkaProducer<String, String>(configMap)
 }
 
-fun getBareBonesConsumer(offsetConfig: String = "latest") =
+fun getBareBonesConsumer(offsetConfig: String = "latest", groupId: String = "my-consumer-${UUID.randomUUID()}") =
     KafkaConsumer<String, String>(
         mapOf(
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringDeserializer",
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringDeserializer",
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",  // "<replace-me>"
-            ConsumerConfig.GROUP_ID_CONFIG to "my-consumer-${UUID.randomUUID()}",
+            ConsumerConfig.GROUP_ID_CONFIG to groupId,
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to offsetConfig,
         )
     )
