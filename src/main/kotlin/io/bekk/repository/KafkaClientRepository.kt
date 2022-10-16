@@ -28,7 +28,7 @@ class KafkaClientRepository(
     ): KafkaConsumer<String, V> {
         return KafkaConsumer<String, V>(
             consumerProperties(
-                defaultProps = defaultConsumerConfig(),
+                defaultProps = defaultClientConfig + defaultConsumerConfig(),
                 groupId = groupId,
                 earliest = earliest,
                 autoCommit = autoCommit,
@@ -38,7 +38,7 @@ class KafkaClientRepository(
     }
 
     fun <V> getProducer(): KafkaProducer<String, V> {
-        return KafkaProducer<String, V>(defaultProducerConfig())
+        return KafkaProducer<String, V>(defaultClientConfig + defaultProducerConfig())
     }
 
 
