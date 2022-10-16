@@ -6,7 +6,7 @@ type MessageProps = {
 }
 
 const FeedMessage = ( { message }: MessageProps ) => (
-    <div style={{ padding: "0.5rem" }}>
+    <div style={{ padding: "2rem 1rem", borderBottom: "solid", borderColor: "beige" }}>
         {message}
     </div>
 )

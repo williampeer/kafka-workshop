@@ -1,6 +1,7 @@
 package io.bekk.tasks
 
 import io.bekk.repository.getBareBonesConsumer
+import java.time.Duration
 
 class Task_4
 
@@ -15,4 +16,12 @@ fun main() {
     val consumers = listOf(consumer1, consumer2, consumer3)
     consumers.forEach { it.subscribe(listOf(topicName)) }
 
+    consumers.forEachIndexed{ cIdx, consumer ->
+        println("\nPolling records for consumer #$cIdx..")
+        val consumerRecords = consumer.poll(Duration.ofMillis(100))
+        consumerRecords.forEach { consumerRecord ->
+            println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
+            println("Record value: ${consumerRecord.value()}")
+        }
+    }
 }

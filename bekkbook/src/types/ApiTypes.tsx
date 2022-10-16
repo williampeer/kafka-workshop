@@ -3,7 +3,9 @@ declare namespace Model {
     namespace FeedEvent {
         export interface BekkbookStatusMessage
         {
-            timestamp: string;
+            offset?: string;
+            partition?: string;
+            timestamp?: string;
             message: string;
         }
     }
