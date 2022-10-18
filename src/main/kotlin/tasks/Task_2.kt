@@ -1,21 +1,20 @@
-package io.bekk.tasks
+package tasks
 
-import io.bekk.repository.getBareBonesProducer
+import tasks.BarebonesKafkaClients.getBareBonesProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.*
 
-class Task_2
+// Task_2
 
 // Produce a message to the topic "hello-world"
 fun main() {
-    val producer = getBareBonesProducer()
-    run {
+    getBareBonesProducer().use { producer ->
         producer.send(
             ProducerRecord(
-                "hello-world",
+                Constants.TOPIC_NAME,
                 "log-compaction-key-${UUID.randomUUID()}",
                 "Hey hey hey!"
             )
         )
-    }  // Closeable
+    }
 }
