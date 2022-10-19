@@ -16,7 +16,6 @@ object BarebonesKafkaClients {
     fun getBareBonesProducer(): KafkaProducer<String, String> {
         val configMap = mapOf(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVER_URL,
-            AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG to SCHEMA_REGISTRY_URL,
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringSerializer",
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringSerializer"
         )
@@ -36,7 +35,6 @@ object BarebonesKafkaClients {
                         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVER_URL,
                         ConsumerConfig.GROUP_ID_CONFIG to groupId,
                         ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to offsetConfig,
-                        AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG to SCHEMA_REGISTRY_URL,
                     )
         )
 

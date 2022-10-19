@@ -1,20 +1,18 @@
 package tasks
 
-import tasks.BarebonesKafkaClients.getBareBonesProducer
-import org.apache.kafka.clients.producer.ProducerRecord
-import java.util.*
+import tasks.BarebonesKafkaClients.getBareBonesConsumer
+import java.time.Duration
 
 // Task_2
+// Consume a message from the topic "hello-world"
 
-// Produce a message to the topic "hello-world"
 fun main() {
-    getBareBonesProducer().use { producer ->
-        producer.send(
-            ProducerRecord(
-                Constants.TOPIC_NAME,
-                "log-compaction-key-${UUID.randomUUID()}",
-                "Hey hey hey!"
-            )
-        )
+    getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
+        consumer.subscribe(listOf(Constants.TOPIC_NAME))
+        consumer.poll(Duration.ofMillis(500L))
+            .forEach { consumerRecord ->
+                println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
+                println("Record value: ${consumerRecord.value()}")
+            }
     }
 }
