@@ -1,12 +1,11 @@
-package io.bekk.tasks
+package tasks
 
 import io.bekk.config.KafkaConfig
 import io.bekk.publisher.BekkbookStatusMessage
-import io.bekk.repository.KafkaClientRepository
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.*
 
-class Task_4_2
+// Task_5
 
 // Produce an Avro-serialized message to the topic "bekkbook-status-message"
 
@@ -16,16 +15,13 @@ fun main() {
         it.securityProtocol = "PLAINTEXT"
         it.schemaRegistryUrl = "http://localhost:8081/"
     }
-    val kafkaClientRepository = KafkaClientRepository(kafkaConfig)
-    val producer = kafkaClientRepository.getProducer<BekkbookStatusMessage>()
-
-    run {
+    BarebonesKafkaClients.getAvroProducer<BekkbookStatusMessage>().use { producer ->
         producer.send(
             ProducerRecord(
-                "bekkbook-status-message",
+                Constants.AVRO_TOPIC_NAME,
                 UUID.randomUUID().toString(),
                 BekkbookStatusMessage("\"It doesn't seem like anything to me.\"")
             )
         )
-    }  // Closeable
+    }
 }
