@@ -2,6 +2,6 @@ app:
   kafka:
     bootstrapServer: "localhost:9092"
     securityProtocol: "PLAINTEXT"
-    schemaRegistryUrl: "http://localhost:8001/"
+    schemaRegistryUrl: "http://localhost:8081/"
 server:
   port: ${PORT:3000}

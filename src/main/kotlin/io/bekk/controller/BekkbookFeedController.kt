@@ -2,6 +2,7 @@ package io.bekk.controller
 
 import io.bekk.publisher.BekkbookStatusMessage
 import io.bekk.repository.FeedRepository
+import kotlinx.coroutines.runBlocking
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,7 +17,9 @@ class BekkbookFeedController(
     @CrossOrigin(origins = ["*"])
     @GetMapping("/status-feed/")
     fun getStatusFeed(): ResponseEntity<BekkbookStatusMessageList> {
-        return ResponseEntity.ok(BekkbookStatusMessageList(feedRepository.getFeed()))
+        return runBlocking {
+            return@runBlocking ResponseEntity.ok(BekkbookStatusMessageList(feedRepository.getFeed()))
+        }
     }
 
 //    ---- OUT OF SCOPE -------
