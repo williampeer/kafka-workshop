@@ -3,7 +3,6 @@ import FeedMessage from "./FeedMessage";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useQuery} from "react-query";
 import {getStatusFeed} from "../api/API";
-import {BekkbookMessageRecordList} from "../types/ApiTypes"; // Grid version 2
 
 const Feed = () => {
     const recordList = useQuery('statusFeed', () => getStatusFeed())

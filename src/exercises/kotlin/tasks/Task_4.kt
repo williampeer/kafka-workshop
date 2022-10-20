@@ -41,8 +41,8 @@ fun main() {
 fun pollAndPrintRecords(consumer: KafkaConsumer<String, String>) {
     val consumerRecords = consumer.poll(Duration.ofMillis(500))
     println("==================== Consumer records ====================")
-    consumerRecords.forEach { consumerRecord ->
-        println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
-        println("Record value: ${consumerRecord.value()}")
+    consumerRecords.forEach { record ->
+        println("Record: topic: ${record.topic()}, partition: ${record.partition()}, offset: ${record.offset()}")
+        println("Record value: ${record.value()}")
     }
 }
