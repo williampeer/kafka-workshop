@@ -3,6 +3,7 @@ package io.bekk.controller
 import io.bekk.publisher.BekkbookStatusMessage
 import io.bekk.repository.FeedRepository
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
@@ -12,9 +13,10 @@ class BekkbookFeedController(
     val feedRepository: FeedRepository
 ) {
 
+    @CrossOrigin(origins = ["*"])
     @GetMapping("/status-feed/")
-    fun getStatusFeed(): ResponseEntity<List<BekkbookStatusMessage>> {
-        return ResponseEntity.ok(feedRepository.getFeed())
+    fun getStatusFeed(): ResponseEntity<BekkbookStatusMessageList> {
+        return ResponseEntity.ok(BekkbookStatusMessageList(feedRepository.getFeed()))
     }
 
 //    ---- OUT OF SCOPE -------
@@ -31,3 +33,7 @@ class BekkbookFeedController(
         return ResponseEntity.ok(emptyList())
     }
 }
+
+data class BekkbookStatusMessageList(
+    val statusFeed: List<BekkbookStatusMessage>
+)
