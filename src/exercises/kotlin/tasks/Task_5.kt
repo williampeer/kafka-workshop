@@ -1,6 +1,5 @@
 package tasks
 
-import io.bekk.config.KafkaConfig
 import io.bekk.publisher.BekkbookStatusMessage
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.*
@@ -16,7 +15,8 @@ fun main() {
             ProducerRecord(
                 Constants.AVRO_TOPIC_NAME,
                 UUID.randomUUID().toString(),
-                BekkbookStatusMessage("\"It doesn't seem like anything to me.\"")
+                // BekkbookStatusMessage("Currently at a #KafkaWorkshop 🎉 held by @Bekk 🕴")
+                BekkbookStatusMessage("Yes indeed! 👀")
             )
         )
     }
