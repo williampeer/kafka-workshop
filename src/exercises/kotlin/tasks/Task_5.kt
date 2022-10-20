@@ -10,11 +10,7 @@ import java.util.*
 // Produce an Avro-serialized message to the topic "bekkbook-status-message"
 
 fun main() {
-    val kafkaConfig: KafkaConfig = KafkaConfig().also {
-        it.bootstrapServer = "localhost:9092"
-        it.securityProtocol = "PLAINTEXT"
-        it.schemaRegistryUrl = "http://localhost:8081/"
-    }
+
     BarebonesKafkaClients.getAvroProducer<BekkbookStatusMessage>().use { producer ->
         producer.send(
             ProducerRecord(

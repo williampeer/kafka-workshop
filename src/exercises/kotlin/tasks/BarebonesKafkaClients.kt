@@ -11,8 +11,8 @@ import java.util.*
 
 object BarebonesKafkaClients {
 
-    private const val BOOTSTRAP_SERVER_URL = "localhost:9092" // "<replace-me>"
-    private const val SCHEMA_REGISTRY_URL = "http://localhost:8081"
+    private const val BOOTSTRAP_SERVER_URL = "10.52.1.71:9092"
+    private const val SCHEMA_REGISTRY_URL = "http://10.52.1.71:8081"
     fun getBareBonesProducer(): KafkaProducer<String, String> {
         val configMap = mapOf(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVER_URL,

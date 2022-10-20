@@ -44,7 +44,7 @@ fun main() {
 fun KafkaProducer<String, String>.produceMessage(key: String, value: String) {
     send(
         ProducerRecord(
-            Constants.PARTITIONED_TOPIC,
+            tasks.Constants.PARTITIONED_TOPIC,
             key,
             value
         )

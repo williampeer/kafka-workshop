@@ -36,6 +36,17 @@ repositories {
     maven { url = uri("https://packages.confluent.io/maven/") }
 }
 
+sourceSets {
+    create("exercises") {
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+val exercisesImplementation by configurations.getting {
+    extendsFrom(configurations.implementation.get())
+}
+
 dependencies {
     implementation("org.apache.kafka:kafka-clients:$kafka_version")
     implementation("io.confluent:kafka-avro-serializer:$confluent_version")
@@ -65,6 +76,7 @@ compileKotlin.dependsOn(tasks.generateAvroJava)
 
 val serverOutputDir = project.layout.buildDirectory.dir("generated-api")
 sourceSets {
+
     if (!gradle.startParameter.taskNames.any { it.toLowerCase().contains("ktLint") }) {
         val main by getting
         main.java.srcDir("${serverOutputDir.get()}/src/main/kotlin")
