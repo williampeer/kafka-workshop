@@ -43,10 +43,6 @@ class BekkbookFeedController(
 //    val recordList: List<ConsumerRecordWithStringValue>
 //)
 
-data class BekkbookStatusMessageList(
-    val recordList: List<BekkbookStatusMessageData>
-)
-
 data class BekkbookStatusMessageConsumerRecordList(
     val recordList: List<BekkbookStatusMessageConsumerRecord>
 )

@@ -68,14 +68,14 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
         ConcurrentKafkaListenerContainerFactory<K, V>().apply {
             consumerFactory = enturConsumerFactory()
 
-             if (props.dltEnabled) {
+             if (props.dltEnabled) { //This is useful if you want to enable a DLT handler
                 setCommonErrorHandler(
                     DefaultErrorHandler(
                         DeadLetterPublishingRecoverer(
                             if (props.avroSerializableClasses.isEmpty()) {
                                 kafkaTemplate<K, V>()
                             } else {
-                                deadLetterTemplate(producerProps(props))
+                                deadLetterTemplate(producerProps(props)) // useful if you need to handle deserialization failures
                             }
                         ) { record: ConsumerRecord<*, *>, _: Exception ->
                             TopicPartition(

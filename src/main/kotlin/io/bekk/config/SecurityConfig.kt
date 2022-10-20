@@ -9,6 +9,8 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
+
+    // Allowing everything. Not for any kind of production use, obviously.
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeRequests().anyRequest().permitAll()
