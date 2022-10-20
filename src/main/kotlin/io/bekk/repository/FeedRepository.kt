@@ -20,7 +20,7 @@ class FeedRepository(
         )
     }
 
-    fun getFeed(): List<BekkbookMessageConsumerRecord> {
+    fun getFeed(): List<BekkbookStatusMessageConsumerRecord> {
         // Should you read this file as a participant: Creating a new client for each server request is really
         //  not an approach anyone should adopt. The reason we have done it this way (currently) is simply time-
         //  constraints put forth by writing this workshop. Under normal circumstances, we'd like to have clients/
@@ -32,33 +32,38 @@ class FeedRepository(
 
             val statusFeed = consumer.poll(Duration.ofSeconds(1))
             return@use statusFeed.map {
-                BekkbookMessageConsumerRecord(
+                BekkbookStatusMessageConsumerRecord(
                     it.topic(),
                     it.partition(),
                     it.offset(),
                     it.timestamp(),
                     it.key(),
-                    it.value().message
+                    BekkbookStatusMessageData(it.value().message)
                 )
             }.toList()
         }
     }
-
-    fun <V> getAllRecords(topic: String): List<ConsumerRecord<String, V>> {
-        return connectNewConsumerToCluster<V>().use { consumer ->
-            consumer.subscribe(listOf(topic))
-            consumer.seekToBeginning(consumer.assignment())
-
-            return@use consumer.poll(Duration.ofSeconds(5)).toList()
-        }
-    }
 }
 
-data class BekkbookMessageConsumerRecord(
+data class BekkbookStatusMessageData(
+    val message: String
+)
+
+data class BekkbookStatusMessageConsumerRecord(
     val topicName: String,
     val partition: Int,
     val offset: Long,
     val timestamp: Long,
     val key: String,
-    val message: String,
+    val value: BekkbookStatusMessageData
+)
+
+// Compare with above - we return a custom data type - this could be replaced with an arbitrary DTO, or we could use the deserialised Avro-generated object
+data class ConsumerRecordWithStringValue(
+    val topicName: String,
+    val partition: Int,
+    val offset: Long,
+    val timestamp: Long,
+    val key: String,
+    val value: String
 )

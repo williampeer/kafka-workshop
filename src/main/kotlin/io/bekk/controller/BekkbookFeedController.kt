@@ -1,8 +1,9 @@
 package io.bekk.controller
 
+import io.bekk.repository.BekkbookStatusMessageConsumerRecord
+import io.bekk.repository.BekkbookStatusMessageData
+import io.bekk.repository.ConsumerRecordWithStringValue
 import io.bekk.repository.FeedRepository
-import io.bekk.repository.BekkbookMessageConsumerRecord
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,26 +17,36 @@ class BekkbookFeedController(
 
     @CrossOrigin(origins = ["*"])
     @GetMapping("/status-feed/")
-    fun getStatusFeed(): ResponseEntity<BekkbookMessageConsumerRecordList> {
+    fun getStatusFeed(): ResponseEntity<BekkbookStatusMessageConsumerRecordList> {
         return ResponseEntity.ok(
-            BekkbookMessageConsumerRecordList(recordList = feedRepository.getFeed())
+            BekkbookStatusMessageConsumerRecordList(recordList = feedRepository.getFeed())
         )
     }
 
-    @GetMapping("/consumer-records/{topic}")
-    fun <V> getConsumerRecordsForTopic(
-        @PathVariable(value = "topic")
-        topic: String
-    ): ResponseEntity<List<ConsumerRecord<String, V>>> {
-        return ResponseEntity.ok(feedRepository.getAllRecords(topic))
-    }
-
 //    ---- OUT OF SCOPE -------
+//    @GetMapping("/consumer-records/{topic}")
+//    fun getConsumerRecordsForTopic(
+//        @PathVariable(value = "topic")
+//        topic: String
+//    ): ResponseEntity<ConsumerRecordWithStringValueList> {
+//        return ResponseEntity.ok(
+//            ConsumerRecordWithStringValueList(feedRepository.getAllRecords(topic))
+//        )
+//    }
+
 // Optional:
 //    fun getAllNewMessagesForTopic()
 //    fun streamMessageFeed()
 }
 
-data class BekkbookMessageConsumerRecordList(
-    val recordList: List<BekkbookMessageConsumerRecord>
+//data class ConsumerRecordWithStringValueList(
+//    val recordList: List<ConsumerRecordWithStringValue>
+//)
+
+data class BekkbookStatusMessageList(
+    val recordList: List<BekkbookStatusMessageData>
+)
+
+data class BekkbookStatusMessageConsumerRecordList(
+    val recordList: List<BekkbookStatusMessageConsumerRecord>
 )

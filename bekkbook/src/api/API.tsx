@@ -25,24 +25,6 @@ async function doGetRequest<T>(
     return doGetRequestForUrl(url, expectedResponse);
 }
 
-// async function doPostRequestToUrl<T>(
-//     url: string,
-//     stringifiedPayload: string,
-//     expectedResponse = 201
-// ): Promise<T> {
-//     return fetch(url, {
-//         method: "POST",
-//         body: stringifiedPayload,
-//     }).then(async (response) => {
-//         if (response.status === expectedResponse) {
-//             return response.json();
-//         } else {
-//             const error = await response.json();
-//             throw new Error(error.message);
-//         }
-//     });
-// }
-
 export const getStatusFeed = async(): Promise<BekkbookMessageRecordList> => {
     return doGetRequest("/status-feed/")
 }

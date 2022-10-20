@@ -15,8 +15,8 @@ const Feed = () => {
         <Grid2 container spacing={1}>
             <Grid2 xs style={{ marginTop: "3px", borderRight: "solid" }} />
             <Grid2 xs={8}>
-                {recordList.data?.recordList.map((messageRecord) =>
-                    <FeedMessage message={messageRecord.message} key={messageRecord.key} />
+                {recordList.data?.recordList.map((msg) =>
+                    <FeedMessage bekkbookStatusMessage={msg} key={msg.key} />
                 )}
             </Grid2>
             <Grid2 xs style={{ marginTop: "3px", borderLeft: "solid" }} />

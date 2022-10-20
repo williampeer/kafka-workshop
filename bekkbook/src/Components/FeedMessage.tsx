@@ -1,13 +1,20 @@
 import React from "react";
+import {BekkbookMessageRecord} from "../types/ApiTypes";
 
 
-type MessageProps = {
-    message: String
+type FeedMessageProps = {
+    bekkbookStatusMessage: BekkbookMessageRecord
 }
 
-const FeedMessage = ( { message }: MessageProps ) => (
+const FeedMessage = ( { bekkbookStatusMessage }: FeedMessageProps ) => (
     <div style={{ padding: "2rem 1rem", borderBottom: "solid", borderColor: "beige" }}>
-        {message}
+        {/*Topic: {bekkbookStatusMessage.topicName}<br/>*/}
+        partition:{bekkbookStatusMessage.partition}{', '}offset:{bekkbookStatusMessage.partition}
+        <br/>
+        Key: {bekkbookStatusMessage.key}
+        <br/>
+        <br/>
+        {bekkbookStatusMessage.value.message}
     </div>
 )
 
