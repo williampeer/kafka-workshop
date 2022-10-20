@@ -19,7 +19,7 @@ class BekkbookFeedController(
     @GetMapping("/status-feed/")
     fun getStatusFeed(): ResponseEntity<BekkbookStatusMessageConsumerRecordList> {
         return ResponseEntity.ok(
-            BekkbookStatusMessageConsumerRecordList(recordList = feedRepository.getFeed())
+            BekkbookStatusMessageConsumerRecordList(recordList = feedRepository.feed)
         )
     }
 
