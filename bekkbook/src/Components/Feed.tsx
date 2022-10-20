@@ -21,7 +21,7 @@ const Feed = () => {
 
             </Grid2>
             <Grid2 xs={8}>
-                {recordList.data?.recordList.map((msg) =>
+                {recordList.data?.recordList.sort((a,b) => b.timestamp-a.timestamp).map((msg) =>
                     <FeedMessage bekkbookStatusMessage={msg} key={msg.key} />
                 )}
             </Grid2>

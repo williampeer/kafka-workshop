@@ -5,9 +5,9 @@ export type BekkbookMessage = {
 
 export type BekkbookMessageRecord = {
     topicName: string;
-    partition?: string;
-    offset?: string;
-    timestamp?: string;
+    partition: number;
+    offset: number;
+    timestamp: number;
     key: string;
     value: BekkbookMessage;
 }
@@ -19,9 +19,9 @@ export type BekkbookMessageRecordList = {
 
 export type ConsumerRecord = {
     topicName: string;
-    partition?: string;
-    offset?: string;
-    timestamp?: string;
+    partition: string;
+    offset: string;
+    timestamp: string;
     key: string;
     value: string;
 }
