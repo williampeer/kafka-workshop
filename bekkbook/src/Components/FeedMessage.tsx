@@ -13,6 +13,8 @@ const FeedMessage = ( { bekkbookStatusMessage }: FeedMessageProps ) => (
         <br/>
         Key: {bekkbookStatusMessage.key}
         <br/>
+        Timestamp: {bekkbookStatusMessage.timestamp}
+        <br/>
         <br/>
         {bekkbookStatusMessage.value.message}
     </div>

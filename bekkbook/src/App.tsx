@@ -15,7 +15,7 @@ class App extends Component {
                     <h1 style={{padding: "1rem", borderBottom: "solid"}}>
                         bekkbook™️
                     </h1>
-                    <Feed/>
+                    <Feed />
                 </div>
             </QueryClientProvider>
         );
