@@ -1,4 +1,4 @@
-import {BekkbookStatusMessageList} from "../types/ApiTypes";
+import {BekkbookMessageRecordList} from "../types/ApiTypes";
 
 export const API_URL = "http://localhost:3000"
 
@@ -43,6 +43,6 @@ async function doGetRequest<T>(
 //     });
 // }
 
-export const getStatusFeed = async(): Promise<BekkbookStatusMessageList> => {
+export const getStatusFeed = async(): Promise<BekkbookMessageRecordList> => {
     return doGetRequest("/status-feed/")
 }

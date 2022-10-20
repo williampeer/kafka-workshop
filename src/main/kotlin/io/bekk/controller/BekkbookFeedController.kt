@@ -1,8 +1,8 @@
 package io.bekk.controller
 
-import io.bekk.publisher.BekkbookStatusMessage
 import io.bekk.repository.FeedRepository
-import kotlinx.coroutines.runBlocking
+import io.bekk.repository.BekkbookMessageConsumerRecord
+import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,27 +16,26 @@ class BekkbookFeedController(
 
     @CrossOrigin(origins = ["*"])
     @GetMapping("/status-feed/")
-    fun getStatusFeed(): ResponseEntity<BekkbookStatusMessageList> {
-        return runBlocking {
-            return@runBlocking ResponseEntity.ok(BekkbookStatusMessageList(feedRepository.getFeed()))
-        }
+    fun getStatusFeed(): ResponseEntity<BekkbookMessageConsumerRecordList> {
+        return ResponseEntity.ok(
+            BekkbookMessageConsumerRecordList(recordList = feedRepository.getFeed())
+        )
+    }
+
+    @GetMapping("/consumer-records/{topic}")
+    fun <V> getConsumerRecordsForTopic(
+        @PathVariable(value = "topic")
+        topic: String
+    ): ResponseEntity<List<ConsumerRecord<String, V>>> {
+        return ResponseEntity.ok(feedRepository.getAllRecords(topic))
     }
 
 //    ---- OUT OF SCOPE -------
+// Optional:
 //    fun getAllNewMessagesForTopic()
 //    fun streamMessageFeed()
-
-    // Optional:
-    @GetMapping("/messages/{topic}")
-    fun getAllMessagesForTopic(
-        @PathVariable(value = "topic")
-        topic: String
-    ): ResponseEntity<List<String>> {
-        // TODO: implement me
-        return ResponseEntity.ok(emptyList())
-    }
 }
 
-data class BekkbookStatusMessageList(
-    val statusFeed: List<BekkbookStatusMessage>
+data class BekkbookMessageConsumerRecordList(
+    val recordList: List<BekkbookMessageConsumerRecord>
 )

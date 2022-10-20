@@ -1,11 +1,13 @@
 
-export type BekkbookStatusMessage = {
-    offset?: string;
+export type BekkbookMessageRecord = {
+    topicName: string;
     partition?: string;
+    offset?: string;
     timestamp?: string;
+    key: string;
     message: string;
 }
 
-export type BekkbookStatusMessageList = {
-    statusFeed: BekkbookStatusMessage[]
+export type BekkbookMessageRecordList = {
+    recordList: BekkbookMessageRecord[]
 }

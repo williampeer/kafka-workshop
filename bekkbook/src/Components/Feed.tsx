@@ -2,13 +2,13 @@ import React from "react";
 import FeedMessage from "./FeedMessage";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import {useQuery} from "react-query";
-import {getStatusFeed} from "../api/API"; // Grid version 2
+import {getStatusFeed} from "../api/API";
+import {BekkbookMessageRecordList} from "../types/ApiTypes"; // Grid version 2
 
 const Feed = () => {
-    // const messages = ['Hello there!', 'Hi.', 'Hello again.'];  // TODO: query API for messages & update component
-    const messages = useQuery('statusFeed', () => getStatusFeed())
+    const recordList = useQuery('statusFeed', () => getStatusFeed())
 
-    if (!messages.isSuccess) {
+    if (!recordList.isSuccess) {
         return <></>
     }
 
@@ -16,8 +16,8 @@ const Feed = () => {
         <Grid2 container spacing={1}>
             <Grid2 xs style={{ marginTop: "3px", borderRight: "solid" }} />
             <Grid2 xs={8}>
-                {messages.data?.statusFeed.map((message) =>
-                    <FeedMessage message={message.toString()} />
+                {recordList.data?.recordList.map((messageRecord) =>
+                    <FeedMessage message={messageRecord.message} key={messageRecord.key} />
                 )}
             </Grid2>
             <Grid2 xs style={{ marginTop: "3px", borderLeft: "solid" }} />
