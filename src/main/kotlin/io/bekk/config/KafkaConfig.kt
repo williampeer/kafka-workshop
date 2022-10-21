@@ -46,7 +46,7 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
 
 
     @Bean
-    fun <K : Any, V : SpecificRecordBase> consumerFactory(): ConsumerFactory<K, V> =
+    fun <K : Any, V : SpecificRecordBase> enturConsumerFactory(): ConsumerFactory<K, V> =
         DefaultKafkaConsumerFactory<K, V>(
             serverProps(props) + commonProps() +
                     mapOf(
@@ -62,7 +62,7 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
     @Bean
     fun <K : Any, V : SpecificRecordBase> listenerFactory(): ConcurrentKafkaListenerContainerFactory<K, V> =
         ConcurrentKafkaListenerContainerFactory<K, V>().apply {
-            consumerFactory = consumerFactory()
+            consumerFactory = enturConsumerFactory()
 
              if (props.dltEnabled) { //This is useful if you want to enable a DLT handler
                 setCommonErrorHandler(
