@@ -50,6 +50,7 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
         DefaultKafkaConsumerFactory<K, V>(
             serverProps(props) + commonProps() +
                     mapOf(
+                        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
                         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.qualifiedName,
                         ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS to props.keyDeserializer,
                         ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.qualifiedName,
