@@ -22,7 +22,7 @@ class FeedRepository {
         @Header(KafkaHeaders.OFFSET) offset: Long,
         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
-        @Payload record: BekkbookStatusMessage
+        @Payload record: String
     ) {
         feed = feed.takeLast(50).plus(BekkbookStatusMessageConsumerRecord(
             feedTopic,
@@ -30,14 +30,14 @@ class FeedRepository {
             offset,
             timestamp,
             key,
-            BekkbookStatusMessageData(record.message)
+            BekkbookStatusMessageData(record)
         ))
 
     }
 
     companion object {
-        const val feedTopic = "bekkbook-status-message"
-        const val groupId = "server-consumer"
+        const val feedTopic = "hello-world"
+        const val groupId = "server-consumer-hello-world"
     }
 }
 

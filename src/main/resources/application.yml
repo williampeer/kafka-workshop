@@ -1,8 +1,8 @@
 app:
   kafka:
-    bootstrapServer: "localhost:9092"
+    bootstrapServer: "10.10.1.131:9092"
     securityProtocol: "PLAINTEXT"
-    schemaRegistryUrl: "http://localhost:8081/"
+    schemaRegistryUrl: "http://10.10.1.131:8081/"
     avroSerializableClasses:
       - "io.bekk.publisher.BekkbookStatusMessage"
 server:
