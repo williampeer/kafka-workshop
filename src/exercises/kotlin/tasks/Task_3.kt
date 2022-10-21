@@ -41,6 +41,7 @@ fun readQueueFromStart() {
             println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
             println("Record value: ${consumerRecord.value()}")
         }
+        consumer.commitSync()
 
         // iff log compaction has been run:
         assert(consumerRecords.toList().size == 1)

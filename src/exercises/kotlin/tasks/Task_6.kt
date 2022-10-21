@@ -18,5 +18,6 @@ fun main() {
             records.forEach {
                 println("Record value: ${it.value()}")
             }
+            consumer.commitAsync()
         }
 }

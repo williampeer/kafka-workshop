@@ -17,6 +17,7 @@ fun main() {
                 .forEach { consumerRecord ->
                     println("${Date(consumerRecord.timestamp())}: Received ${consumerRecord.value()}")
                 }
+            consumer.commitSync()
         }
     }
 }
