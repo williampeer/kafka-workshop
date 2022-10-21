@@ -2,7 +2,6 @@ package io.bekk.config
 
 import io.bekk.producer.WorkshopKafkaProducer
 import io.bekk.properties.KafkaProps
-import io.confluent.kafka.schemaregistry.client.SchemaRegistryClientConfig
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
 import io.confluent.kafka.serializers.KafkaAvroSerializer
@@ -12,18 +11,15 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.TopicPartition
-import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.serialization.ByteArraySerializer
 import org.apache.kafka.common.serialization.IntegerSerializer
 import org.apache.kafka.common.serialization.StringSerializer
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.*
-import org.springframework.kafka.listener.CommonErrorHandler
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
 import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.support.serializer.DelegatingByTypeSerializer
@@ -50,7 +46,7 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
 
 
     @Bean
-    fun <K : Any, V : SpecificRecordBase> enturConsumerFactory(): ConsumerFactory<K, V> =
+    fun <K : Any, V : SpecificRecordBase> consumerFactory(): ConsumerFactory<K, V> =
         DefaultKafkaConsumerFactory<K, V>(
             serverProps(props) + commonProps() +
                     mapOf(
@@ -66,7 +62,7 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
     @Bean
     fun <K : Any, V : SpecificRecordBase> listenerFactory(): ConcurrentKafkaListenerContainerFactory<K, V> =
         ConcurrentKafkaListenerContainerFactory<K, V>().apply {
-            consumerFactory = enturConsumerFactory()
+            consumerFactory = consumerFactory()
 
              if (props.dltEnabled) { //This is useful if you want to enable a DLT handler
                 setCommonErrorHandler(
