@@ -3,45 +3,41 @@ package io.bekk.repository
 import io.bekk.publisher.BekkbookStatusMessage
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.support.KafkaHeaders
+import org.springframework.messaging.handler.annotation.Header
+import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Repository
 import java.time.Duration
 
 @Repository
-class FeedRepository(
-    val kafkaClientRepository: KafkaClientRepository
-) {
-    val feedTopic = "bekkbook-status-message"
-    fun<V> connectNewConsumerToCluster(): KafkaConsumer<String, V> {
-        return kafkaClientRepository.getConsumer<V>(
-            groupId = "server-consumer",
-            earliest = true,
-            autoCommit = false,
-            specificAvro = true
-        )
+class FeedRepository {
+
+    var feed = listOf<BekkbookStatusMessageConsumerRecord>()
+
+    @KafkaListener(topics = [feedTopic], containerFactory = "listenerFactory", groupId = groupId)
+    fun receiveTestRecord(
+        @Header(KafkaHeaders.RECEIVED_KEY) key: String,
+        @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
+        @Header(KafkaHeaders.OFFSET) offset: Long,
+        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
+        @Header(KafkaHeaders.GROUP_ID) groupId: String,
+        @Payload record: BekkbookStatusMessage
+    ) {
+        feed = feed.takeLast(50).plus(BekkbookStatusMessageConsumerRecord(
+            feedTopic,
+            partition,
+            offset,
+            timestamp,
+            key,
+            BekkbookStatusMessageData(record.message)
+        ))
+
     }
 
-    fun getFeed(): List<BekkbookStatusMessageConsumerRecord> {
-        // Should you read this file as a participant: Creating a new client for each server request is really
-        //  not an approach anyone should adopt. The reason we have done it this way (currently) is simply time-
-        //  constraints put forth by writing this workshop. Under normal circumstances, we'd like to have clients/
-        //  consumers that poll from queues continuously - i.e. that are continuously subscribed to an event stream
-        //  for a given topic and set of partitions.
-        return connectNewConsumerToCluster<BekkbookStatusMessage>().use { consumer ->
-            consumer.subscribe(listOf(feedTopic))
-            consumer.seekToBeginning(consumer.assignment())
-
-            val statusFeed = consumer.poll(Duration.ofSeconds(1))
-            return@use statusFeed.map {
-                BekkbookStatusMessageConsumerRecord(
-                    it.topic(),
-                    it.partition(),
-                    it.offset(),
-                    it.timestamp(),
-                    it.key(),
-                    BekkbookStatusMessageData(it.value().message)
-                )
-            }.toList()
-        }
+    companion object {
+        const val feedTopic = "bekkbook-status-message"
+        const val groupId = "server-consumer"
     }
 }
 

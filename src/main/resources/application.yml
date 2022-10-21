@@ -3,5 +3,7 @@ app:
     bootstrapServer: "localhost:9092"
     securityProtocol: "PLAINTEXT"
     schemaRegistryUrl: "http://localhost:8081/"
+    avroSerializableClasses:
+      - "io.bekk.publisher.BekkbookStatusMessage"
 server:
   port: ${PORT:3000}
