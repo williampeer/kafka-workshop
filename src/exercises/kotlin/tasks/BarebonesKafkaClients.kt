@@ -11,8 +11,9 @@ import java.util.*
 
 object BarebonesKafkaClients {
 
-    private const val BOOTSTRAP_SERVER_URL = "0.0.0.0:9092"
-    private const val SCHEMA_REGISTRY_URL = "http://0.0.0.0:8081"
+    private const val BOOTSTRAP_SERVER_URL = "kafka-workshop-001-kafka-workshop.aivencloud.com:13814"
+    private const val SCHEMA_REGISTRY_URL = "https://kafka-workshop-001-kafka-workshop.aivencloud.com:X"
+
     fun getBareBonesProducer(): KafkaProducer<String, String> {
         val configMap = mapOf(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVER_URL,
