@@ -1,7 +1,9 @@
-package tasks
+package tasks.suggested_solutions
 
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import tasks.BarebonesKafkaClients
+import tasks.Constants
 import java.time.Duration
 
 // Task_9
@@ -12,7 +14,7 @@ import java.time.Duration
 
 fun main() {
     class ConsumerThread : Thread() {
-        val myGroup = "task-8-group"
+        val myGroup = "task-9-group"
         val consumers = listOf(
             BarebonesKafkaClients.getBareBonesConsumer(groupId = myGroup, offsetConfig = "latest"),
             BarebonesKafkaClients.getBareBonesConsumer(groupId = myGroup, offsetConfig = "latest"),
@@ -31,6 +33,7 @@ fun main() {
         }
     }
 
+
     ConsumerThread().start()
     Thread.sleep(5000)
     print("Producing...")
@@ -44,9 +47,23 @@ fun main() {
 fun KafkaProducer<String, String>.produceMessage(key: String, value: String) {
     send(
         ProducerRecord(
-            tasks.Constants.PARTITIONED_TOPIC,
+            Constants.PARTITIONED_TOPIC,
             key,
             value
         )
     )
+}
+
+fun produceMessages() {
+    BarebonesKafkaClients.getBareBonesProducer().use { producer ->
+        listOf("Konichiwa!", "And another one.", "And another one!", "And another one..", latest).forEach { msg ->
+            producer.send(
+                ProducerRecord(
+                    "hello-world",
+                    "such-compaction-much-log",
+                    msg
+                )
+            )
+        }
+    }
 }
