@@ -20,12 +20,16 @@ fun main() {
 fun readQueueFromStart() {
     BarebonesKafkaClients.getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
         consumer.subscribe(listOf(Constants.TOPIC_NAME))
-        val consumerRecords = consumer.poll(Duration.ofMillis(500L))
+
+        // TODO: fixme - denne får ingen records..
+        consumer.seekToBeginning(consumer.assignment())
+
+        val consumerRecords = consumer.poll(Duration.ofMillis(1000L))
         consumerRecords.forEach { consumerRecord ->
             println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
             println("Record value: ${consumerRecord.value()}")
         }
-        consumer.commitSync()
+//        consumer.commitSync()
 
         // iff log compaction has been run:
         assert(consumerRecords.toList().size == 1)
