@@ -12,6 +12,8 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
+/src/exercises/kotlin/tasks/Secrets.kt
+
 # Ignore Gradle build output directory
 build
 .env
@@ -24,9 +26,6 @@ build
 
 # testing
 /coverage
-
-# production
-/build
 
 # misc
 .DS_Store
