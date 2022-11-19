@@ -1,13 +1,11 @@
-package tasks
+package tasks.suggested_solutions
 
-import tasks.BarebonesKafkaClients.getBareBonesConsumer
-import tasks.BarebonesKafkaClients.getBareBonesProducer
-import org.apache.kafka.clients.producer.ProducerRecord
+import tasks.BarebonesKafkaClients
+import tasks.Constants
 import java.time.Duration
 
 //class Task_3
-
-const val latest = ".. and greatest!"
+val latest = ".. and greatest!"
 
 // Produce multiple messages to the hello-world-topic using the same key.
 //  What happens when you try to consume these messages?
@@ -15,26 +13,12 @@ const val latest = ".. and greatest!"
 //  to the scheduled job not having been run, or due to the topic configs.
 //  Google and read about "Kafka log compaction" if you'd like to know more.
 fun main() {
-//    produceMessages()
+    produceMessages()
     readQueueFromStart()
 }
 
-fun produceMessages() {
-    getBareBonesProducer().use { producer ->
-        listOf("Konichiwa!", "And another one.", "And another one!", "And another one..", latest).forEach { msg ->
-            producer.send(
-                ProducerRecord(
-                    "hello-world",
-                    "such-compaction-much-log",
-                    msg
-                )
-            )
-        }
-    }
-}
-
 fun readQueueFromStart() {
-    getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
+    BarebonesKafkaClients.getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
         consumer.subscribe(listOf(Constants.TOPIC_NAME))
         val consumerRecords = consumer.poll(Duration.ofMillis(500L))
         consumerRecords.forEach { consumerRecord ->

@@ -1,7 +1,7 @@
 package tasks
 
-import tasks.BarebonesKafkaClients.getBareBonesProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import tasks.BarebonesKafkaClients.getBareBonesProducer
 import java.util.*
 
 // Task_1

@@ -1,7 +1,9 @@
-package tasks
+package tasks.suggested_solutions
 
 import io.bekk.publisher.BekkbookStatusMessage
 import org.apache.kafka.clients.producer.ProducerRecord
+import tasks.BarebonesKafkaClients
+import tasks.Constants
 import java.util.*
 
 // Task_5

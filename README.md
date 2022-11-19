@@ -3,10 +3,10 @@
 
 ## For the participant
 
-Please find the introductory tasks under `./src/main/kotlin/tasks/` and by checking out branch task-<task-number>
+Please find the introductory tasks under `./src/exercises/kotlin/tasks/`
 
-Once you have completed the task at hand, you may proceed to the next task by checkout out the next branch, and will
-also find a suggested solution to the previous task in the succeeding branch.
+Once you have completed the task at hand or feel like moving on to the next task, you may check out the suggested solution 
+in the `suggested_solutions/`-package.
 
 For the challenges (which may be found under `../challenges/`) you may go about solving any one you'd like, 
 without any specific given or suggested order - or perhaps you'd even like to integrate kafka with one of your own 

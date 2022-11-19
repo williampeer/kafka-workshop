@@ -1,6 +1,8 @@
-package tasks
+package tasks.suggested_solutions
 
 import io.bekk.publisher.BekkbookStatusMessage
+import tasks.BarebonesKafkaClients
+import tasks.Constants
 import java.time.Duration
 
 // Task_6
