@@ -22,6 +22,7 @@ class FeedRepository {
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
         @Payload record: BekkbookStatusMessage
     ) {
+        // TODO: also retrieve N of the previous messages on the queue, or the entire queue
         statusFeed = statusFeed.takeLast(50).plus(BekkbookStatusMessageConsumerRecord(
             feedTopic,
             partition,
@@ -42,6 +43,7 @@ class FeedRepository {
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
         @Payload record: ConsumerRecordWithStringValue
     ) {
+        // TODO: also retrieve N of the previous messages on the queue, or the entire queue
         helloWorldFeed = helloWorldFeed.takeLast(50).plus(ConsumerRecordWithStringValue(
             "hello-world",
             partition,
