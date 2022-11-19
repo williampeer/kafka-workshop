@@ -5,6 +5,8 @@
 
 Please find the introductory tasks under `./src/exercises/kotlin/tasks/`
 
+You may also view the web page shared by the organisers in order to see the other groups' progress. 
+
 Once you have completed the task at hand or feel like moving on to the next task, you may check out the suggested solution 
 in the `suggested_solutions/`-package.
 
