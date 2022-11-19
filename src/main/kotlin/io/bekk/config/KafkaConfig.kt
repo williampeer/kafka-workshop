@@ -2,6 +2,7 @@ package io.bekk.config
 
 import io.bekk.producer.WorkshopKafkaProducer
 import io.bekk.properties.KafkaProps
+import io.confluent.kafka.schemaregistry.client.SchemaRegistryClientConfig
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig
 import io.confluent.kafka.serializers.KafkaAvroSerializer
@@ -11,6 +12,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.TopicPartition
+import org.apache.kafka.common.config.SaslConfigs
 import org.apache.kafka.common.serialization.ByteArraySerializer
 import org.apache.kafka.common.serialization.IntegerSerializer
 import org.apache.kafka.common.serialization.StringSerializer
@@ -116,17 +118,28 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
 
         private fun serverConfig(
             bootstrapServerUrl: String,
-            schemaRegistryUrl: String
+            schemaRegistryUrl: String,
+            schemaRegistryBasicAuth: String,
+            saslUsername: String,
+            saslPassword: String
         ): Map<String, String> =
             mapOf(
                 CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG to bootstrapServerUrl,
-                AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG to schemaRegistryUrl
+                CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SASL_SSL",
+                SaslConfigs.SASL_MECHANISM to "SCRAM-SHA-256",
+                SaslConfigs.SASL_JAAS_CONFIG to "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"$saslUsername\" password=\"$saslPassword\";",
+                AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG to schemaRegistryUrl,
+                SchemaRegistryClientConfig.BASIC_AUTH_CREDENTIALS_SOURCE to "USER_INFO",
+                SchemaRegistryClientConfig.USER_INFO_CONFIG to schemaRegistryBasicAuth
             )
 
         private fun serverProps(properties: KafkaProps): Map<String, String> =
             serverConfig(
                 properties.bootstrapServer,
                 properties.schemaRegistryUrl,
+                properties.schemaRegistryBasicAuth,
+                properties.saslUsername,
+                properties.saslPassword
             )
 
     }

@@ -1,22 +1,20 @@
 package io.bekk.repository
 
 import io.bekk.publisher.BekkbookStatusMessage
-import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Repository
-import java.time.Duration
 
 @Repository
 class FeedRepository {
 
-    var feed = listOf<BekkbookStatusMessageConsumerRecord>()
+    var statusFeed = listOf<BekkbookStatusMessageConsumerRecord>()
+    var helloWorldFeed = listOf<ConsumerRecordWithStringValue>()
 
     @KafkaListener(topics = [feedTopic], containerFactory = "listenerFactory", groupId = groupId)
-    fun receiveTestRecord(
+    fun receiveStatusFeedRecord(
         @Header(KafkaHeaders.RECEIVED_KEY) key: String,
         @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
         @Header(KafkaHeaders.OFFSET) offset: Long,
@@ -24,13 +22,33 @@ class FeedRepository {
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
         @Payload record: BekkbookStatusMessage
     ) {
-        feed = feed.takeLast(50).plus(BekkbookStatusMessageConsumerRecord(
+        statusFeed = statusFeed.takeLast(50).plus(BekkbookStatusMessageConsumerRecord(
             feedTopic,
             partition,
             offset,
             timestamp,
             key,
             BekkbookStatusMessageData(record.message)
+        ))
+
+    }
+
+    @KafkaListener(topics = ["hello-world"], containerFactory = "listenerFactory", groupId = groupId)
+    fun receiveHelloWorldRecord(
+        @Header(KafkaHeaders.RECEIVED_KEY) key: String,
+        @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
+        @Header(KafkaHeaders.OFFSET) offset: Long,
+        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
+        @Header(KafkaHeaders.GROUP_ID) groupId: String,
+        @Payload record: BekkbookStatusMessage
+    ) {
+        helloWorldFeed = helloWorldFeed.takeLast(50).plus(ConsumerRecordWithStringValue(
+            feedTopic,
+            partition,
+            offset,
+            timestamp,
+            key,
+            record.message
         ))
 
     }

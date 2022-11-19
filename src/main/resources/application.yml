@@ -1,8 +1,11 @@
 app:
   kafka:
-    bootstrapServer: "localhost:9092"
-    securityProtocol: "PLAINTEXT"
-    schemaRegistryUrl: "http://localhost:8081/"
+    bootstrapServer: "kafka-workshop-001-kafka-workshop.aivencloud.com:13814"
+    securityProtocol: "SASL_SSL"
+    schemaRegistryUrl: "https://kafka-workshop-001-kafka-workshop.aivencloud.com:13806"
+    schemaRegistryBasicAuth: "username:password"
+    saslUsername: "avnadmin"
+    saslPassword: "password"
     avroSerializableClasses:
       - "io.bekk.publisher.BekkbookStatusMessage"
 server:
