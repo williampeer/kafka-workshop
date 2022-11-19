@@ -16,3 +16,5 @@ kafka-topics --bootstrap-server localhost:9092 --create --topic hello-world \
     --config segment.ms=5000
 
 kafka-topics --bootstrap-server localhost:9092 --describe --topic hello-world
+
+#keytool -importcert -alias ssl_workshop -keystore $JAVA_HOME/lib/security/cacerts -file ~/Downloads/workshop_cert.pem

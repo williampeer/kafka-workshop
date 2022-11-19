@@ -19,6 +19,7 @@ object BarebonesKafkaClients {
     fun sharedProps(): Map<String, String> {
         return mapOf(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to BOOTSTRAP_SERVER_URL,
+            AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG to SCHEMA_REGISTRY_URL,
             CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SASL_SSL",
             SchemaRegistryClientConfig.BASIC_AUTH_CREDENTIALS_SOURCE to "USER_INFO",
             SchemaRegistryClientConfig.USER_INFO_CONFIG to "$username:$password",
