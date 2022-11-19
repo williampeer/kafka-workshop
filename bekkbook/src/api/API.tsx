@@ -1,4 +1,4 @@
-import {BekkbookMessageRecordList} from "../types/ApiTypes";
+import {BekkbookMessageRecordList, ConsumerRecordWithStringValueList} from "../types/ApiTypes";
 
 export const API_URL = "http://localhost:3000"
 
@@ -27,4 +27,8 @@ async function doGetRequest<T>(
 
 export const getStatusFeed = async(): Promise<BekkbookMessageRecordList> => {
     return doGetRequest("/status-feed/")
+}
+
+export const getHelloWorldFeed = async(): Promise<ConsumerRecordWithStringValueList> => {
+    return doGetRequest("/hello-world-feed/")
 }

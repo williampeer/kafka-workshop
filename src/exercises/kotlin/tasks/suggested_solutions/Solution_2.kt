@@ -1,6 +1,7 @@
-package tasks
+package tasks.suggested_solutions
 
 import tasks.BarebonesKafkaClients.getBareBonesConsumer
+import tasks.Constants
 import java.time.Duration
 
 // Task_2

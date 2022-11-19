@@ -12,8 +12,21 @@ export type BekkbookMessageRecord = {
     value: BekkbookMessage;
 }
 
+export type ConsumerRecordWithStringValue = {
+    topicName: string;
+    partition: number;
+    offset: number;
+    timestamp: number;
+    key: string;
+    value: string;
+}
+
 export type BekkbookMessageRecordList = {
     recordList: BekkbookMessageRecord[]
+}
+
+export type ConsumerRecordWithStringValueList = {
+    recordList: ConsumerRecordWithStringValue[]
 }
 
 

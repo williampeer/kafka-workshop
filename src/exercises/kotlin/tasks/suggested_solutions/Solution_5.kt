@@ -17,8 +17,8 @@ fun main() {
             ProducerRecord(
                 Constants.AVRO_TOPIC_NAME,
                 UUID.randomUUID().toString(),
-                // BekkbookStatusMessage("Currently at a #KafkaWorkshop 🎉 held by @Bekk 🕴")
-                BekkbookStatusMessage("Yes indeed! 👀")
+                 BekkbookStatusMessage("Currently at a #KafkaWorkshop 🎉 held by @Bekk 🕴")
+//                BekkbookStatusMessage("Yes indeed! 👀")
             )
         )
     }

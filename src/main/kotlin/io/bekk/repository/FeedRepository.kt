@@ -40,15 +40,15 @@ class FeedRepository {
         @Header(KafkaHeaders.OFFSET) offset: Long,
         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
-        @Payload record: BekkbookStatusMessage
+        @Payload record: ConsumerRecordWithStringValue
     ) {
         helloWorldFeed = helloWorldFeed.takeLast(50).plus(ConsumerRecordWithStringValue(
-            feedTopic,
+            "hello-world",
             partition,
             offset,
             timestamp,
             key,
-            record.message
+            record.value
         ))
 
     }
