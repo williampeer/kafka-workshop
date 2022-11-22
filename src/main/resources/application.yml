@@ -1,8 +1,8 @@
 app:
   kafka:
-    bootstrapServer: "kafka-workshop-001-kafka-workshop.aivencloud.com:13814"
+    bootstrapServer: "kafka-workshop-001-kafka-workshop.aivencloud.com:13815"
     securityProtocol: "SASL_SSL"
-    schemaRegistryUrl: "https://kafka-workshop-001-kafka-workshop.aivencloud.com:13806"
+    schemaRegistryUrl: "https://kafka-workshop-001-kafka-workshop.aivencloud.com:13807"
     schemaRegistryBasicAuth: ${SCHEMA_REG_BASIC_AUTH}
     saslUsername: ${SASL_USERNAME}
     saslPassword: ${SASL_PASSWORD}
