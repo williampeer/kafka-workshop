@@ -25,7 +25,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.7.10"
     id("com.github.davidmc24.gradle.plugin.avro") version "1.3.0"
     idea
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
+//    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.spring") version "1.7.10"
 }
