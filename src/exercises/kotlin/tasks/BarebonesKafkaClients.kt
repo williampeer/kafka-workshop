@@ -14,7 +14,7 @@ import java.util.*
 object BarebonesKafkaClients {
 
     private const val BOOTSTRAP_SERVER_URL = "kafka-workshop-001-kafka-workshop.aivencloud.com:13816"
-    private const val SCHEMA_REGISTRY_URL = "https://kafka-workshop-001-kafka-workshop.aivencloud.com:13807"
+    private const val SCHEMA_REGISTRY_URL = "https://kafka-workshop-001-kafka-workshop.aivencloud.com:13806"
 
     fun sharedProps(): Map<String, String> {
         return mapOf(
