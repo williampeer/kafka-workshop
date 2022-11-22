@@ -24,7 +24,7 @@ fun main() {
         override fun run() {
             while (true) {
                 consumers.forEachIndexed { consumerNumber, consumer ->
-                    consumer.poll(Duration.ofMillis(500)).forEach { record ->
+                    consumer.poll(Duration.ofMillis(10000L)).forEach { record ->
                         println("$consumerNumber received ${record.key()}:${record.value()}")
                     }
                     consumer.commitSync()

@@ -21,10 +21,9 @@ fun readQueueFromStart() {
     BarebonesKafkaClients.getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
         consumer.subscribe(listOf(Constants.TOPIC_NAME))
 
-        // TODO: fixme - denne får ingen records..
         consumer.seekToBeginning(consumer.assignment())
 
-        val consumerRecords = consumer.poll(Duration.ofMillis(1000L))
+        val consumerRecords = consumer.poll(Duration.ofMillis(10000L))
         consumerRecords.forEach { consumerRecord ->
             println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
             println("Record value: ${consumerRecord.value()}")

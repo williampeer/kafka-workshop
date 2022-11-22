@@ -15,7 +15,7 @@ fun main() {
         .use { consumer ->
             consumer.subscribe(listOf(Constants.AVRO_TOPIC_NAME))
             consumer.seekToBeginning(consumer.assignment())
-            val records = consumer.poll(Duration.ofMillis(500L))
+            val records = consumer.poll(Duration.ofMillis(10000L))
             println("Records:")
             records.forEach {
                 println("Record value: ${it.value()}")

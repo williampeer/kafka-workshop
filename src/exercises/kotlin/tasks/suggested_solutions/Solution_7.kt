@@ -15,7 +15,7 @@ fun main() {
     BarebonesKafkaClients.getBareBonesConsumer(offsetConfig = "latest").use { consumer ->
         consumer.subscribe(listOf(Constants.TOPIC_NAME))
         while (true) {
-            consumer.poll(Duration.ofMillis(2000L))
+            consumer.poll(Duration.ofMillis(10000L))
                 .forEach { consumerRecord ->
                     println("${Date(consumerRecord.timestamp())}: Received ${consumerRecord.value()}")
                 }

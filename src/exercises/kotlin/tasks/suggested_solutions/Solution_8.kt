@@ -12,7 +12,7 @@ import java.time.Duration
 fun main() {
     BarebonesKafkaClients.getBareBonesConsumer(groupId = "name-task-9", offsetConfig = "earliest").use { consumer ->
         consumer.subscribe(listOf(Constants.TOPIC_NAME))
-        consumer.poll(Duration.ofMillis(500L))
+        consumer.poll(Duration.ofMillis(10000L))
             .forEach { consumerRecord ->
                 println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
                 println("Record value: ${consumerRecord.value()}")

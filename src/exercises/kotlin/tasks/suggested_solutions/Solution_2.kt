@@ -8,9 +8,9 @@ import java.time.Duration
 // Consume a message from the topic "hello-world"
 
 fun main() {
-        getBareBonesConsumer(offsetConfig = "earliest", groupId = "anotherveryrandomgroup").use { consumer ->
+        getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
             consumer.subscribe(listOf(Constants.TOPIC_NAME))
-            consumer.poll(Duration.ofMillis(500L))
+            consumer.poll(Duration.ofMillis(10000L))
                 .forEach { consumerRecord ->
                     println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
                     println("Record value: ${consumerRecord.value()}")
