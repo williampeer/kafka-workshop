@@ -16,5 +16,5 @@ class KafkaProps {
     var valueSerializer: String = "io.confluent.kafka.serializers.KafkaAvroSerializer"
     var valueDeserializer: String = "io.confluent.kafka.serializers.KafkaAvroDeserializer"
     var useSpecificAvro: Boolean = true
-    var dltEnabled: Boolean = true
+    var dltEnabled: Boolean = false
 }

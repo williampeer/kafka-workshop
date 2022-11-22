@@ -23,41 +23,46 @@ class FeedRepository {
         @Payload record: BekkbookStatusMessage
     ) {
         // TODO: also retrieve N of the previous messages on the queue, or the entire queue
-        statusFeed = statusFeed.takeLast(50).plus(BekkbookStatusMessageConsumerRecord(
-            feedTopic,
-            partition,
-            offset,
-            timestamp,
-            key,
-            BekkbookStatusMessageData(record.message)
-        ))
+        statusFeed = statusFeed.takeLast(50).plus(
+            BekkbookStatusMessageConsumerRecord(
+                feedTopic,
+                partition,
+                offset,
+                timestamp,
+                key,
+                BekkbookStatusMessageData(record.message)
+            )
+        )
 
     }
 
-    @KafkaListener(topics = ["hello-world"], containerFactory = "listenerFactory", groupId = groupId)
+    @KafkaListener(topics = ["hello-world"], containerFactory = "stringListenerFactory", groupId = groupId)
     fun receiveHelloWorldRecord(
         @Header(KafkaHeaders.RECEIVED_KEY) key: String,
         @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
         @Header(KafkaHeaders.OFFSET) offset: Long,
         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
-        @Payload record: ConsumerRecordWithStringValue
+        @Payload record: String
     ) {
+        println("Received ${record}")
         // TODO: also retrieve N of the previous messages on the queue, or the entire queue
-        helloWorldFeed = helloWorldFeed.takeLast(50).plus(ConsumerRecordWithStringValue(
-            "hello-world",
-            partition,
-            offset,
-            timestamp,
-            key,
-            record.value
-        ))
+        helloWorldFeed = helloWorldFeed.takeLast(50).plus(
+            ConsumerRecordWithStringValue(
+                "hello-world",
+                partition,
+                offset,
+                timestamp,
+                key,
+                record
+            )
+        )
 
     }
 
     companion object {
         const val feedTopic = "bekkbook-status-message"
-        const val groupId = "server-consumer"
+        const val groupId = "brynjulv-test-6"
     }
 }
 

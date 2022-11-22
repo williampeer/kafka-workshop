@@ -33,7 +33,13 @@ import org.springframework.util.backoff.FixedBackOff
 class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
     @Bean
     fun <K : Any, V : SpecificRecordBase> producerFactory(): ProducerFactory<K, V> =
-        DefaultKafkaProducerFactory<K, V>(
+        DefaultKafkaProducerFactory(
+            producerProps(props)
+        )
+
+    @Bean
+    fun stringProducerFactory(): ProducerFactory<String, String> =
+        DefaultKafkaProducerFactory(
             producerProps(props)
         )
 
@@ -41,15 +47,39 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
     fun <K : Any, V : SpecificRecordBase> kafkaTemplate(): KafkaTemplate<K, V> =
         KafkaTemplate(producerFactory())
 
+    @Bean
+    fun stringKafkaTemplate(): KafkaTemplate<String, String> =
+        KafkaTemplate(stringProducerFactory())
 
     @Bean
     fun <T : SpecificRecordBase> kafkaProducer(): WorkshopKafkaProducer<T> =
-        WorkshopKafkaProducer(kafkaTemplate<String, T>())
+        WorkshopKafkaProducer(kafkaTemplate())
 
 
     @Bean
-    fun <K : Any, V : SpecificRecordBase> enturConsumerFactory(): ConsumerFactory<K, V> =
-        DefaultKafkaConsumerFactory<K, V>(
+    fun stringConsumerFactory(): ConsumerFactory<String, String> =
+        DefaultKafkaConsumerFactory(
+            serverProps(props) + commonProps() +
+                    mapOf(
+                        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
+                        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.qualifiedName,
+                        ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS to "org.apache.kafka.common.serialization.StringDeserializer",
+                        ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to ErrorHandlingDeserializer::class.qualifiedName,
+                        ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS to "org.apache.kafka.common.serialization.StringDeserializer",
+                    )
+        )
+
+    @Bean
+    fun stringListenerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> =
+        ConcurrentKafkaListenerContainerFactory<String, String>().apply {
+            consumerFactory = stringConsumerFactory()
+
+            mySimpleErrorHandler(stringKafkaTemplate())
+        }
+
+    @Bean
+    fun <K : Any, V : SpecificRecordBase> consumerFactory(): ConsumerFactory<K, V> =
+        DefaultKafkaConsumerFactory(
             serverProps(props) + commonProps() +
                     mapOf(
                         ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
@@ -65,26 +95,9 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
     @Bean
     fun <K : Any, V : SpecificRecordBase> listenerFactory(): ConcurrentKafkaListenerContainerFactory<K, V> =
         ConcurrentKafkaListenerContainerFactory<K, V>().apply {
-            consumerFactory = enturConsumerFactory()
+            consumerFactory = consumerFactory()
 
-             if (props.dltEnabled) { //This is useful if you want to enable a DLT handler
-                setCommonErrorHandler(
-                    DefaultErrorHandler(
-                        DeadLetterPublishingRecoverer(
-                            if (props.avroSerializableClasses.isEmpty()) {
-                                kafkaTemplate<K, V>()
-                            } else {
-                                deadLetterTemplate(producerProps(props)) // useful if you need to handle deserialization failures
-                            }
-                        ) { record: ConsumerRecord<*, *>, _: Exception ->
-                            TopicPartition(
-
-                                "${record.topic()}-dlt", -1
-                            )
-                        }, FixedBackOff(1L, 2L)
-                    )
-                )
-            }
+             mySimpleErrorHandler(kafkaTemplate())
         }
 
     private fun byteArrayOrAvroSerializer(): DelegatingByTypeSerializer =
@@ -113,6 +126,27 @@ class KafkaConfig(val context: ApplicationContext, val props: KafkaProps) {
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to properties.keySerializer,
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to properties.valueSerializer
         )
+
+    private fun<K: Any, V: Any> ConcurrentKafkaListenerContainerFactory<K,V>.mySimpleErrorHandler(kafkaTemplate: KafkaTemplate<K,V>) {
+        if (props.dltEnabled) { //This is useful if you want to enable a DLT handler
+            setCommonErrorHandler(
+                DefaultErrorHandler(
+                    DeadLetterPublishingRecoverer(
+                        if (props.avroSerializableClasses.isEmpty()) {
+                            kafkaTemplate
+                        } else {
+                            deadLetterTemplate(producerProps(props)) // useful if you need to handle deserialization failures
+                        }
+                    ) { record: ConsumerRecord<*, *>, _: Exception ->
+                        TopicPartition(
+
+                            "${record.topic()}-dlt", -1
+                        )
+                    }, FixedBackOff(1L, 2L)
+                )
+            )
+        }
+    }
 
     companion object {
 
