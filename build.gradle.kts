@@ -32,7 +32,7 @@ plugins {
 
 val jar by tasks.getting(Jar::class) {
     manifest {
-        attributes["Main-Class"] = "io.bekk.Application.kt"
+        attributes["Main-Class"] = "io.bekk.ApplicationKt"
     }
 }
 
