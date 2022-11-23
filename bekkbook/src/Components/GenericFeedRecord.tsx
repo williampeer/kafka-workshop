@@ -1,5 +1,5 @@
 import React from "react";
-import {BekkbookMessageRecord, ConsumerRecordWithStringValue} from "../types/ApiTypes";
+import {ConsumerRecordWithStringValue} from "../types/ApiTypes";
 
 
 type GenericFeedRecordProps = {
