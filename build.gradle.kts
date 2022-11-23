@@ -30,6 +30,12 @@ plugins {
     kotlin("plugin.spring") version "1.7.10"
 }
 
+val jar by tasks.getting(Jar::class) {
+    manifest {
+        attributes["Main-Class"] = "io.bekk.ApplicationKt"
+    }
+}
+
 repositories {
     mavenCentral()
     mavenLocal()
