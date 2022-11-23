@@ -2,9 +2,9 @@ package tasks
 
 // Task_9
 
-// Create a set of three consumers listening to a topic. With all three producers
+// Create a set of three consumers listening to a topic. With all three consumers
 // running, produce two series of messages. Ensure that each messages belonging to each
-// series are produced in order.
+// series are consumed in order.
 
 fun main() {
     class ConsumerThread : Thread() {
