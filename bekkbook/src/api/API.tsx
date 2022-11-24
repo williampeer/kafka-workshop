@@ -1,6 +1,6 @@
 import {BekkbookMessageRecordList, ConsumerRecordWithStringValueList} from "../types/ApiTypes";
 
-export const API_URL = "http://localhost:3000"
+export const API_URL = "https://cloud-native-kafka-workshop.herokuapp.com"
 
 async function doGetRequestForUrl<T>(
     url: string,
