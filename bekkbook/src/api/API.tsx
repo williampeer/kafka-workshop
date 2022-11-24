@@ -7,7 +7,7 @@ async function doGetRequestForUrl<T>(
     expectedResponse = 200
 ): Promise<T> {
     return fetch(url, {
-        headers: { 'Access-Control-Allow-Origin': '*' }
+        headers: { 'Access-Control-Allow-Origin': '*'
     }).then((response) => {
         if (response.status === expectedResponse) {
             return response.json();

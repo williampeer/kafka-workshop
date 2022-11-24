@@ -1,6 +1,6 @@
 {
-  "short_name": "Bekk-bok",
-  "name": "En enkel Bekk-bok React-app",
+  "short_name": "Bekk-book",
+  "name": "En enkel Bekk-book React-app",
   "icons": [
     {
       "src": "favicon.ico",
