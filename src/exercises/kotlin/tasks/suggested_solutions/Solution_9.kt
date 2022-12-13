@@ -55,16 +55,4 @@ fun KafkaProducer<String, String>.produceMessage(key: String, value: String) {
     )
 }
 
-fun produceMessages() {
-    BarebonesKafkaClients.getBareBonesProducer().use { producer ->
-        listOf("Konichiwa!", "And another one.", "And another one!", "And another one..", latest).forEach { msg ->
-            producer.send(
-                ProducerRecord(
-                    "hello-world",
-                    "such-compaction-much-log",
-                    msg
-                )
-            )
-        }
-    }
-}
+

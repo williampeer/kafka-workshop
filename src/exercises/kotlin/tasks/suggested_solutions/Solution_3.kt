@@ -1,5 +1,6 @@
 package tasks.suggested_solutions
 
+import org.apache.kafka.clients.producer.ProducerRecord
 import tasks.BarebonesKafkaClients
 import tasks.Constants
 import java.time.Duration
@@ -18,20 +19,36 @@ fun main() {
 }
 
 fun readQueueFromStart() {
-    BarebonesKafkaClients.getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
-        consumer.subscribe(listOf(Constants.TOPIC_NAME))
+    BarebonesKafkaClients.getBareBonesConsumer(offsetConfig = "earliest")
+        .use { consumer ->
+            consumer.subscribe(listOf(Constants.TOPIC_NAME))
 
-        consumer.seekToBeginning(consumer.assignment())
+            consumer.seekToBeginning(consumer.assignment())
 
-        val consumerRecords = consumer.poll(Duration.ofMillis(10000L))
-        consumerRecords.forEach { consumerRecord ->
-            println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
-            println("Record value: ${consumerRecord.value()}")
+            while (true) {
+                val consumerRecords = consumer.poll(Duration.ofMillis(10000L))
+                consumerRecords.forEach { consumerRecord ->
+                    println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
+                    println("Record value: ${consumerRecord.value()}")
+                }
+            }
+            //consumer.commitSync()
+
+            // iff log compaction has been run:
+            //  assert(consumerRecords.toList().size == 1)
+            //  assert(consumerRecords.last().value() == latest)
         }
-//        consumer.commitSync()
-
-        // iff log compaction has been run:
-        assert(consumerRecords.toList().size == 1)
-        assert(consumerRecords.last().value() == latest)
+}
+fun produceMessages() {
+    BarebonesKafkaClients.getBareBonesProducer().use { producer ->
+        listOf("A message", "And another one.", "Yet another one", "One final message", latest).forEach { msg ->
+            producer.send(
+                ProducerRecord(
+                    "hello-world",
+                    "the-same-key",
+                    msg
+                )
+            )
+        }
     }
 }

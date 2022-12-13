@@ -1,0 +1,72 @@
+package tasks
+
+import io.confluent.kafka.schemaregistry.client.SchemaRegistryClientConfig
+import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig
+import org.apache.kafka.clients.CommonClientConfigs
+import org.apache.kafka.clients.consumer.ConsumerConfig
+import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.config.SaslConfigs
+import java.time.Duration
+
+val bootstrapUrl = "<your-bootstrap-server-url>"
+val kafkaUsername = "<your-username>"
+val kafkaPassword = "<your-password>"
+val schemaRegistryUrl = "https://<your-schema-registry-url>"
+
+fun `produce a basic message`() {
+
+    val producer = KafkaProducer<String, String>(
+        mapOf(
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapUrl,
+            CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SASL_SSL",
+            SaslConfigs.SASL_MECHANISM to "SCRAM-SHA-256",
+            SaslConfigs.SASL_JAAS_CONFIG to "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"$kafkaUsername\" password=\"$kafkaPassword\";",
+            ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringSerializer",
+            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringSerializer"
+        )
+    )
+
+    producer.send(
+        ProducerRecord(
+            "my-topic-name",
+            "my-key",
+            "my-value"
+        )
+    )
+}
+
+fun `consume a basic topic from start`() {
+    val consumer = KafkaConsumer<String, String>(
+        mapOf(
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapUrl,
+            CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SASL_SSL",
+            SchemaRegistryClientConfig.BASIC_AUTH_CREDENTIALS_SOURCE to "USER_INFO",
+            SchemaRegistryClientConfig.USER_INFO_CONFIG to "$kafkaUsername:$kafkaPassword",
+            AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG to schemaRegistryUrl,
+            SaslConfigs.SASL_MECHANISM to "SCRAM-SHA-256",
+            SaslConfigs.SASL_JAAS_CONFIG to "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"$kafkaUsername\" password=\"$kafkaPassword\";",
+            ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringDeserializer",
+            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringDeserializer",
+            ConsumerConfig.GROUP_ID_CONFIG to "my-group-id", // Which consumer group to join. If this already exist,
+            // you will join the group and trigger a rebalance upon calling poll()
+            ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
+        )
+    )
+
+    consumer.subscribe(listOf("my-topic-name")) // Configure which topics your consumer should subscribe to.
+    // Doesn't actually join the consumer group at this step
+
+    while (true) {
+        consumer.poll(Duration.ofMillis(10000L)) // Poll Kafka. This step triggers connecting to Kafka and joining
+            // the consumer group when first called.
+            .forEach {
+                //do something with your ConsumerRecord<String, String>
+            }
+        consumer.commitAsync() // Commits the offset received from last .poll() to Kafka for this consumer group
+    }
+
+}
+

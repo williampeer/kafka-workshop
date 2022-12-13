@@ -22,10 +22,11 @@ fun main() {
     )
 
     consumers.forEach { it.subscribe(listOf(Constants.TOPIC_NAME)) }  // Join the same group, enabling partition balancing, offset handling and other Kafka consumer group features
-
     consumers.forEachIndexed { cIdx, consumer ->
         println("\nPolling records for consumer #$cIdx..")
+
         pollAndPrintRecords(consumer)
+        println(consumer.assignment())
 
     }
 
@@ -36,6 +37,8 @@ fun main() {
         println("\nPolling records for consumer #$cIdx..")
         consumer.seekToBeginning(consumer.assignment())
         pollAndPrintRecords(consumer)
+        println(consumer.assignment())
+
     }
 
     consumers.forEach { it.close() }
