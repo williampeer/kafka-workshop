@@ -7,3 +7,4 @@ producer = KafkaProducer(bootstrap_servers=bootstrap_server, security_protocol='
 
 # TODO: Produce a message to the topic "hello-world"
 # producer.send()
+# producer.flush()

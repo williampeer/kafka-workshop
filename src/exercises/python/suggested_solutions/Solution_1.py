@@ -6,4 +6,5 @@ producer = KafkaProducer(bootstrap_servers=bootstrap_server, security_protocol='
                          sasl_plain_password='<change-me>')
 
 # Produce a message to the topic "hello-world"
-producer.send('hello-world', b'hello from python')
+producer.send(topic='hello-world', value=b'hello from Python!', key=b'hello-world-python-key')
+producer.flush()

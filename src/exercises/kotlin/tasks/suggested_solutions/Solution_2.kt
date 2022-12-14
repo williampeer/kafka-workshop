@@ -10,7 +10,7 @@ import java.time.Duration
 fun main() {
         getBareBonesConsumer(offsetConfig = "earliest").use { consumer ->
             consumer.subscribe(listOf(Constants.TOPIC_NAME))
-            consumer.poll(Duration.ofMillis(10000L))
+            consumer.poll(Duration.ofMillis(3000L))
                 .forEach { consumerRecord ->
                     println("Record: topic: ${consumerRecord.topic()}, offset:${consumerRecord.offset()}")
                     println("Record value: ${consumerRecord.value()}")
