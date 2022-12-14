@@ -1,6 +1,6 @@
 {
-  "short_name": "Bekk-book",
-  "name": "En enkel Bekk-book React-app",
+  "short_name": "workshop-event-feed-demo",
+  "name": "A simple Kafka-workshop event-stream frontend demo",
   "icons": [
     {
       "src": "favicon.ico",

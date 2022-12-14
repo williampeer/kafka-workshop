@@ -11,9 +11,8 @@ class App extends Component {
         return (
             <QueryClientProvider client={queryClient}>
                 <div className="App">
-                    {/*<h1>Bekkbok blir fosskok™️</h1>*/}
                     <h1 style={{padding: "1rem", borderBottom: "solid"}}>
-                        bekkbook™️
+                        kafka-workshop-feed™️
                     </h1>
                     <Feed />
                 </div>
