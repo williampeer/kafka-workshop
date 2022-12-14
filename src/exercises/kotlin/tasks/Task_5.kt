@@ -1,8 +1,6 @@
 package tasks
 
-import io.bekk.publisher.BekkbookStatusMessage
-import org.apache.kafka.clients.producer.ProducerRecord
-import java.util.*
+import io.bekk.publisher.WorkshopStatusMessage
 
 // Task_5
 
@@ -10,9 +8,9 @@ import java.util.*
 
 fun main() {
 
-    BarebonesKafkaClients.getAvroProducer<BekkbookStatusMessage>().use { producer ->
+    BarebonesKafkaClients.getAvroProducer<WorkshopStatusMessage>().use { producer ->
         // TODO: Implement me
-//        val avroSerialisedValue: BekkbookStatusMessage
+//        val avroSerialisedValue: WorkshopStatusMessage
 //
 //        producer.send(
 //            ProducerRecord(
