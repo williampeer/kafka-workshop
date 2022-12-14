@@ -7,6 +7,6 @@ app:
     saslUsername: ${SASL_USERNAME}
     saslPassword: ${SASL_PASSWORD}
     avroSerializableClasses:
-      - "io.bekk.publisher.BekkbookStatusMessage"
+      - "io.bekk.publisher.WorkshopStatusMessage"
 server:
   port: ${PORT:3000}

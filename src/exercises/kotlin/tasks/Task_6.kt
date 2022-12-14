@@ -1,7 +1,6 @@
 package tasks
 
-import io.bekk.publisher.BekkbookStatusMessage
-import java.time.Duration
+import io.bekk.publisher.WorkshopStatusMessage
 
 // Task_6
 
@@ -9,7 +8,7 @@ import java.time.Duration
 // Use/inspect deserialised Avro-schema object-model
 // Optional: Read more about Avro-schema DeSer
 fun main() {
-    BarebonesKafkaClients.getAvroConsumer<BekkbookStatusMessage>("my-group-id")
+    BarebonesKafkaClients.getAvroConsumer<WorkshopStatusMessage>("my-group-id")
         .use { consumer ->
             // TODO: Implement me
         }

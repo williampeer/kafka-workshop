@@ -20,7 +20,7 @@ applications or projects?
 ### Frontend
 
 If you wish to display events about groups' progress throughout the workshop, such as consumed and produced messages, 
-you may run the frontend implemented under bekkbook/. This is essentially a simple React-webapp that fetches 
+you may run the frontend implemented under demo-event-feed-frontend/. This is essentially a simple React-webapp that fetches 
 messages from a lightweight spring-boot backend, which in turn listens to messages from the kafka-cluster.
 
 ### Backend

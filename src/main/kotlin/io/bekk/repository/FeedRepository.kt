@@ -1,6 +1,6 @@
 package io.bekk.repository
 
-import io.bekk.publisher.BekkbookStatusMessage
+import io.bekk.publisher.WorkshopStatusMessage
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
@@ -20,7 +20,7 @@ class FeedRepository {
         @Header(KafkaHeaders.OFFSET) offset: Long,
         @Header(KafkaHeaders.RECEIVED_TIMESTAMP) timestamp: Long,
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
-        @Payload record: BekkbookStatusMessage
+        @Payload record: WorkshopStatusMessage
     ) {
         statusFeed = statusFeed.takeLast(50).plus(
             WorkshopStatusMessageConsumerRecord(
@@ -29,7 +29,7 @@ class FeedRepository {
                 offset,
                 timestamp,
                 key,
-                BekkbookStatusMessageData(record.message)
+                WorkshopStatusMessageData(record.message)
             )
         )
 
@@ -62,7 +62,7 @@ class FeedRepository {
     }
 }
 
-data class BekkbookStatusMessageData(
+data class WorkshopStatusMessageData(
     val message: String
 )
 
@@ -72,7 +72,7 @@ data class WorkshopStatusMessageConsumerRecord(
     val offset: Long,
     val timestamp: Long,
     val key: String,
-    val value: BekkbookStatusMessageData
+    val value: WorkshopStatusMessageData
 )
 
 // Compare with above - we return a custom data type - this could be replaced with an arbitrary DTO, or we could use the deserialised Avro-generated object
