@@ -13,8 +13,3 @@ python3 -m venv <MY_VENVS_PATH>/kafka_workshop
 <MY_VENVS_PATH>/kafka_workshop/bin/activate 
 pip3 install kafka-python
 ```
-or
-```
-pip3 install -r requirements.txt
-```
-
