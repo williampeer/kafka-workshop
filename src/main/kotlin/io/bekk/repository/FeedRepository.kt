@@ -13,7 +13,7 @@ class FeedRepository {
     var statusFeed = listOf<BekkbookStatusMessageConsumerRecord>()
     var helloWorldFeed = listOf<ConsumerRecordWithStringValue>()
 
-    @KafkaListener(topics = [feedTopic], containerFactory = "listenerFactory", groupId = groupId)
+    @KafkaListener(topics = [feedTopic], containerFactory = "listenerFactory", groupId = "#{T(java.util.UUID).randomUUID().toString()}")
     fun receiveStatusFeedRecord(
         @Header(KafkaHeaders.RECEIVED_KEY) key: String,
         @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
@@ -22,7 +22,6 @@ class FeedRepository {
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
         @Payload record: BekkbookStatusMessage
     ) {
-        // TODO: also retrieve N of the previous messages on the queue, or the entire queue
         statusFeed = statusFeed.takeLast(50).plus(
             BekkbookStatusMessageConsumerRecord(
                 feedTopic,
@@ -36,7 +35,7 @@ class FeedRepository {
 
     }
 
-    @KafkaListener(topics = ["hello-world"], containerFactory = "stringListenerFactory", groupId = groupId)
+    @KafkaListener(topics = ["hello-world"], containerFactory = "stringListenerFactory", groupId = "#{T(java.util.UUID).randomUUID().toString()}")
     fun receiveHelloWorldRecord(
         @Header(KafkaHeaders.RECEIVED_KEY) key: String,
         @Header(KafkaHeaders.RECEIVED_PARTITION) partition: Int,
@@ -45,8 +44,6 @@ class FeedRepository {
         @Header(KafkaHeaders.GROUP_ID) groupId: String,
         @Payload record: String
     ) {
-        println("Received ${record}")
-        // TODO: also retrieve N of the previous messages on the queue, or the entire queue
         helloWorldFeed = helloWorldFeed.takeLast(50).plus(
             ConsumerRecordWithStringValue(
                 "hello-world",
@@ -62,7 +59,6 @@ class FeedRepository {
 
     companion object {
         const val feedTopic = "bekkbook-status-message"
-        const val groupId = "brynjulv-test-6"
     }
 }
 
