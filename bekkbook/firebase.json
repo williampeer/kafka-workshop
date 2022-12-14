@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "kafka-workshop",
     "public": "build",
     "ignore": [
       "firebase.json",

@@ -59,9 +59,11 @@ object BarebonesKafkaClients {
             )
         )
 
-    fun <V> getAvroConsumer(groupId: String): KafkaConsumer<String, V> =
+    fun <V> getAvroConsumer(offsetConfig: String = "earliest",groupId: String = "random-group-${UUID.randomUUID()}"):
+            KafkaConsumer<String, V> =
         KafkaConsumer<String, V>(
             sharedProps() + mapOf(
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to offsetConfig,
                 ConsumerConfig.GROUP_ID_CONFIG to groupId,
                 KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG to "true",
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to "org.apache.kafka.common.serialization.StringDeserializer",

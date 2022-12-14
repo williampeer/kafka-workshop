@@ -13,7 +13,7 @@ const GenericFeedRecord = ( { record }: GenericFeedRecordProps ) => (
         <br/>
         Key: {record.key}
         <br/>
-        Timestamp: {record.timestamp}
+        Timestamp: {record.timestamp} ({`${new Date(record.timestamp).toISOString()}`})
         <br/>
         <br/>
         {record.value}
