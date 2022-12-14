@@ -1,7 +1,7 @@
 {
   "namespace": "io.bekk.publisher",
   "type": "record",
-  "name": "BekkbookStatusMessage",
+  "name": "WorkshopStatusMessage",
   "fields": [
     {
       "name": "message",

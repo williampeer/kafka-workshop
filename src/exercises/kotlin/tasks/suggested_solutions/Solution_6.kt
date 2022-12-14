@@ -1,17 +1,17 @@
 package tasks.suggested_solutions
 
-import io.bekk.publisher.BekkbookStatusMessage
+import io.bekk.publisher.WorkshopStatusMessage
 import tasks.BarebonesKafkaClients
 import tasks.Constants
 import java.time.Duration
 
 // Task_6
 
-// Create a listener that consumes messages from the topic "bekkbook-status-message"
+// Create a listener that consumes messages from the topic "workshop-status-message"
 // Use/inspect deserialised Avro-schema object-model
 // Optional: Read more about Avro-schema DeSer
 fun main() {
-    BarebonesKafkaClients.getAvroConsumer<BekkbookStatusMessage>("my-group-id")
+    BarebonesKafkaClients.getAvroConsumer<WorkshopStatusMessage>("my-group-id")
         .use { consumer ->
             consumer.subscribe(listOf(Constants.AVRO_TOPIC_NAME))
             consumer.seekToBeginning(consumer.assignment())

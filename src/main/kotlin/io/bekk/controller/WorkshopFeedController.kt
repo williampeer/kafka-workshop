@@ -1,6 +1,6 @@
 package io.bekk.controller
 
-import io.bekk.repository.BekkbookStatusMessageConsumerRecord
+import io.bekk.repository.WorkshopStatusMessageConsumerRecord
 import io.bekk.repository.ConsumerRecordWithStringValue
 import io.bekk.repository.FeedRepository
 import org.springframework.http.ResponseEntity
@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class BekkbookFeedController(
+class WorkshopFeedController(
     val feedRepository: FeedRepository
 ) {
 
     @CrossOrigin(origins = ["*"])
     @GetMapping("/status-feed/")
-    fun getStatusFeed(): ResponseEntity<BekkbookStatusMessageConsumerRecordList> {
+    fun getStatusFeed(): ResponseEntity<WorkshopStatusMessageConsumerRecordList> {
         return ResponseEntity.ok(
-            BekkbookStatusMessageConsumerRecordList(recordList = feedRepository.statusFeed)
+            WorkshopStatusMessageConsumerRecordList(recordList = feedRepository.statusFeed)
         )
     }
 
@@ -49,8 +49,8 @@ class BekkbookFeedController(
 //    val recordList: List<ConsumerRecordWithStringValue>
 //)
 
-data class BekkbookStatusMessageConsumerRecordList(
-    val recordList: List<BekkbookStatusMessageConsumerRecord>
+data class WorkshopStatusMessageConsumerRecordList(
+    val recordList: List<WorkshopStatusMessageConsumerRecord>
 )
 data class ConsumerRecordWithStringValueList(
     val recordList: List<ConsumerRecordWithStringValue>

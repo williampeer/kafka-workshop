@@ -13,8 +13,8 @@ fun main() {
         producer.send(
             ProducerRecord(
                 Constants.TOPIC_NAME,
-                "log-compaction-key-${UUID.randomUUID()}",
-                "Hey hey hey!"
+                "log-compaction",
+                "Hello world!"
             )
         )
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class FeedRepository {
 
-    var statusFeed = listOf<BekkbookStatusMessageConsumerRecord>()
+    var statusFeed = listOf<WorkshopStatusMessageConsumerRecord>()
     var helloWorldFeed = listOf<ConsumerRecordWithStringValue>()
 
     @KafkaListener(topics = [feedTopic], containerFactory = "listenerFactory", groupId = "#{T(java.util.UUID).randomUUID().toString()}")
@@ -23,7 +23,7 @@ class FeedRepository {
         @Payload record: BekkbookStatusMessage
     ) {
         statusFeed = statusFeed.takeLast(50).plus(
-            BekkbookStatusMessageConsumerRecord(
+            WorkshopStatusMessageConsumerRecord(
                 feedTopic,
                 partition,
                 offset,
@@ -58,7 +58,7 @@ class FeedRepository {
     }
 
     companion object {
-        const val feedTopic = "bekkbook-status-message"
+        const val feedTopic = "workshop-status-message"
     }
 }
 
@@ -66,7 +66,7 @@ data class BekkbookStatusMessageData(
     val message: String
 )
 
-data class BekkbookStatusMessageConsumerRecord(
+data class WorkshopStatusMessageConsumerRecord(
     val topicName: String,
     val partition: Int,
     val offset: Long,

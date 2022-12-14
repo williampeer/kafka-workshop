@@ -1,6 +1,6 @@
 package tasks.suggested_solutions
 
-import io.bekk.publisher.BekkbookStatusMessage
+import io.bekk.publisher.WorkshopStatusMessage
 import org.apache.kafka.clients.producer.ProducerRecord
 import tasks.BarebonesKafkaClients
 import tasks.Constants
@@ -8,16 +8,16 @@ import java.util.*
 
 // Task_5
 
-// Produce an Avro-serialized message to the topic "bekkbook-status-message"
+// Produce an Avro-serialized message to the topic "workshop-status-message"
 
 fun main() {
 
-    BarebonesKafkaClients.getAvroProducer<BekkbookStatusMessage>().use { producer ->
+    BarebonesKafkaClients.getAvroProducer<WorkshopStatusMessage>().use { producer ->
         producer.send(
             ProducerRecord(
                 Constants.AVRO_TOPIC_NAME,
                 UUID.randomUUID().toString(),
-                 BekkbookStatusMessage("Currently at a #KafkaWorkshop 🎉 held by @Bekk 🕴")
+                 WorkshopStatusMessage("Currently at a #KafkaWorkshop 🎉 held by @Bekk 🕴")
 //                BekkbookStatusMessage("Yes indeed! 👀")
             )
         )

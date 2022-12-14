@@ -6,7 +6,7 @@ import java.util.*
 
 // Task_5
 
-// Produce an Avro-serialized message to the topic "bekkbook-status-message"
+// Produce an Avro-serialized message to the topic "workshop-status-message"
 
 fun main() {
 
