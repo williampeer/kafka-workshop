@@ -1,4 +1,4 @@
 package tasks
 
-const val username = "avnadmin"
+const val username = "workshop"
 const val password = "<changeme>"
